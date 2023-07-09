@@ -10,7 +10,7 @@ const ProfileStack=createNativeStackNavigator()
 
   return (
 <ProfileStack.Navigator>
-    <ProfileStack.Screen name='ProfileScreen' component={ProfileScreen}/>
+    <ProfileStack.Screen options={{headerShown:false}} name='ProfileScreen' component={ProfileScreen}/>
 
     <ProfileStack.Screen name='SettingsScreen' component={SettingsScreen}/>
 </ProfileStack.Navigator>

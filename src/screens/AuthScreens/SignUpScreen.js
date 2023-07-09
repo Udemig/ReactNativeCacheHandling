@@ -13,6 +13,10 @@ const SignUpScreen = () => {
     email: '',
     password: '',
     photo: '',
+    job:'',
+    bio:'',
+    experience:'',
+    userID:''
   });
 
   const onChangeText = (key, value) => {
@@ -29,7 +33,7 @@ const saveUser=(newUse,userId)=>{
   .collection('Users')
   .doc(userId)
   .set(
-  newUse
+  {...newUse,userID:userId}
   )
   .then(() => {
     console.log('User added!');
@@ -85,6 +89,24 @@ console.log(error)
         label={'Email'}
         onChangeText={text => onChangeText('email', text)}
         value={newUser.email}
+      />
+
+<TextInput
+        label={'Mesleğiniz'}
+        onChangeText={text => onChangeText('job', text)}
+        value={newUser.job}
+      />
+
+<TextInput
+        label={'Tecrübe Yılı'}
+        onChangeText={text => onChangeText('experience', text)}
+        value={newUser.experience}
+      />
+
+<TextInput
+        label={'Hakkında'}
+        onChangeText={text => onChangeText('bio', text)}
+        value={newUser.bio}
       />
 
       <TextInput
