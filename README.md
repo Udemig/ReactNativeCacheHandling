@@ -1,80 +1,90 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+![realtimechatapp](https://github.com/Udemig/ReactNativeCacheHandling/assets/123208180/40fb6a58-2dbe-4d1f-87f6-0af4ea528169)
 
-# Getting Started
+<h1 align="center">
+  <img src="repo-icon.png" alt="ReactNativeCacheHandling" width="200">
+  <br>
+  ReactNativeCacheHandling
+</h1>
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+<p align="center">
+  <strong>Bu depo, React Native uygulamalarında önbellekleme işlemlerini kolaylaştıran bir kütüphanedir.</strong>
+</p>
 
-## Step 1: Start the Metro Server
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-React%20Native-blue.svg" alt="Platform">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
+</p>
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+<h2>Özellikler</h2>
 
-To start Metro, run the following command from the _root_ of your React Native project:
+<ul>
+  <li>Uygulama içinde veri önbelleğini yönetmek için basit bir API sağlar.</li>
+  <li>Önbellekteki verileri okumak, yazmak, güncellemek ve silmek için kullanışlı yöntemler sunar.</li>
+  <li>Bellek yönetimini optimize etmek için veri saklama süresini kontrol etmenizi sağlar.</li>
+  <li>Uygulama boyunca veri paylaşımını sağlamak için önbelleği küresel olarak yönetir.</li>
+</ul>
 
-```bash
-# using npm
-npm start
+<h2>Kurulum</h2>
 
-# OR using Yarn
-yarn start
-```
+<p>Projenizde React Native Cache Handling'i kullanmak için aşağıdaki adımları takip edin:</p>
 
-## Step 2: Start your Application
+<ol>
+  <li>Öncelikle, projenizin kök dizinindeki <code>package.json</code> dosyasını açın.</li>
+  <li><code>"dependencies"</code> bölümüne aşağıdaki satırı ekleyin:</li>
+</ol>
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+<pre>
+<code>"react-native-cache-handling": "github:Udemig/ReactNativeCacheHandling"</code>
+</pre>
 
-### For Android
+<ol start="3">
+  <li>Komut satırına gidin ve projenizin kök dizinindeyken aşağıdaki komutu çalıştırın:</li>
+</ol>
 
-```bash
-# using npm
-npm run android
+<pre>
+<code>npm install</code>
+</pre>
 
-# OR using Yarn
-yarn android
-```
+<h2>Nasıl Kullanılır</h2>
 
-### For iOS
+<p>React Native Cache Handling'i kullanmak için aşağıdaki örnek kod parçacığını izleyebilirsiniz:</p>
 
-```bash
-# using npm
-npm run ios
+<pre>
+<code>import { CacheHandler } from 'react-native-cache-handling';
+import FastImage from 'react-native-fast-image';
 
-# OR using Yarn
-yarn ios
-```
+// Önbelleğe veri yazma
+CacheHandler.writeData(key, data, expiration); 
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+// Önbellekteki veriyi okuma
+CacheHandler.readData(key)
+  .then((data) => {
+    // Veriyi kullanma işlemleri
+  })
+  .catch((error) => {
+    // Hata yönetimi
+  });
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+// Önbellekten veriyi silme
+CacheHandler.removeData(key);
 
-## Step 3: Modifying your App
+// FastImage kullanımı
+&lt;FastImage
+  style={{ width: 200, height: 200 }}
+  source={{
+    uri: 'https://example.com/image.jpg',
+    priority: FastImage.priority.normal,
+  }}
+  resizeMode={FastImage.resizeMode.contain}
+/&gt;</code>
+</pre>
 
-Now that you have successfully run the app, let's modify it.
+<p>Detaylı API belgelerini öğrenmek için <a href="API.md">API Referansı</a> dosyasına göz atabilirsiniz.</p>
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+<h2>Katkıda Bulunma</h2>
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+<p>Katkılarınızı memnuniyetle karşılıyoruz! Lütfen <code>CONTRIBUTING.md</code> dosyasını okuyun ve geliştirme sürecine katkıda bulunmak için talimatları takip edin.</p>
 
-## Congratulations! :tada:
+<h2>Lisans</h2>
 
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
-# ReactNativeCacheHandling
+<p>Bu proje MIT lisansı altında lisanslanmıştır. Detaylı bilgi için <a href="LICENSE">LICENSE</a> dosyasına göz atabilirsiniz.</p>
