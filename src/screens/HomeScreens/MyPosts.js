@@ -44,7 +44,12 @@ const MyPosts = () => {
           QuerySnapshot._docs.map(p => {
             //Alltaki console log document deki verileri getirir
             // console.log(p._data)
+
+            // Bizim Gelen post bilgileri obje geliyor
+            //Ancak Flatlistte data olarak liste olması gerekiyor
+            //bizde gelen her bir objeyi postArray dizisine ekliyoruz
             postArray.push(p._data);
+            //oluşturduğumuz listeyi posts statemize aktarıyoruz
             setPosts(postArray);
           });
         });
