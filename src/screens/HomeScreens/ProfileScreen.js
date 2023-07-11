@@ -18,7 +18,7 @@ const ProfileScreen = () => {
   const {avaibleUser, setAvaibleUser, setUserInfo, userInfo} =
     useContext(DataContext);
   const navigation = useNavigation();
-  console.log('info',userInfo)
+
 
   return (
     <View style={styles.mainContainer}>

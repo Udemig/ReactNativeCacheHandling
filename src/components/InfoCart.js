@@ -7,7 +7,7 @@ import { colors } from '../utils/colors';
 const InfoCart = ({label, labelValue, cartIcon}) => {
   return (
     <View style={styles.infoCart}>
-  <MyIcon name={cartIcon} style={styles.iconBox} size={40}  color={colors.primaryColor}/>
+  <MyIcon  name={cartIcon} style={styles.iconBox} size={40}  color={colors.primaryColor}/>
       <View style={styles.infoBox}>
         <Text style={styles.label}>{label}</Text>
         <Text style={styles.labelValue}>{labelValue}</Text>

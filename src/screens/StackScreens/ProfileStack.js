@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 import { create } from 'react-test-renderer'
-import ProfileScreen from './ProfileScreen'
-import SettingsScreen from './SettingsScreen'
+import ProfileScreen from '../HomeScreens/ProfileScreen'
+import SettingsScreen from '../HomeScreens/SettingsScreen'
 
 function Profile() {
 
