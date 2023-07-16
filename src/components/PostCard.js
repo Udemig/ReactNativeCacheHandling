@@ -1,12 +1,67 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import MyIcon from './MyIcon';
 import MyFastImage from './MyFastImage';
 import PressebleText from './PressebleText';
 import {colors} from '../utils/colors';
 import PressebleIcon from './PressebleIcon';
-
+import firestore from '@react-native-firebase/firestore';
 const PostCard = ({post}) => {
+  const [saved, setSaved] = useState(post.isSaved);
+  const [liked, setLiked] = useState(post.isLiked);
+
+  console.log(post);
+
+  const savePost = (userId, postID, willAddPost) => {
+    const savedPostReferance = firestore()
+      .collection('Post')
+      .doc(userId)
+      .collection('UserSavedPost')
+      .doc(postID);
+
+    if (saved) {
+      savedPostReferance.delete().then(() => {
+        console.log('remove');
+        setSaved(false);
+      });
+    } else {
+      savedPostReferance
+        .set({...willAddPost, isSaved: true})
+        .then(() => {
+          console.log('kayıt edildi');
+          setSaved(true);
+        })
+        .catch(error => console.log(error));
+    }
+  };
+
+  const incrementPostLikes = (userId, postId) => {
+    const postRef = firestore()
+      .collection('Post')
+      .doc(userId)
+      .collection('UserPost')
+      .doc(postId);
+
+    if (liked) {
+      postRef
+        .update({postLikes: firestore.FieldValue.increment(-1), isLiked: false})
+        .then(() => {
+          console.log('like geri alındı');
+          setLiked(false);
+        }).catch((ee)=>console.log(ee));
+    } else {
+      postRef
+        .update({
+          postLikes: firestore.FieldValue.increment(1),
+          isLiked: true,
+        })
+        .then(() => {
+          console.log('like atıldı');
+          setLiked(true);
+        }).catch((ee)=>console.log(ee));
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -27,18 +82,27 @@ const PostCard = ({post}) => {
       <View style={styles.bottomContainer}>
         <View style={styles.iconsContainer}>
           <View style={styles.leftSide}>
-            <PressebleIcon name={'heart-outline'} size={25} />
+            <PressebleIcon
+              onPress={() => incrementPostLikes(post.postUserId, post.postId)}
+              name={liked ? 'heart' : 'heart-outline'}
+              color={liked ? 'red' : 'black'}
+              size={25}
+            />
             <PressebleIcon name={'chatbubble-outline'} size={25} />
             <PressebleIcon name={'paper-plane-outline'} size={25} />
           </View>
 
           <View style={styles.rightSide}>
-            <PressebleIcon name={'bookmark-outline'} size={25} />
+            <PressebleIcon
+              onPress={() => savePost(post.postUserId, post.postId, post)}
+              name={saved == true ? 'bookmark' : 'bookmark-outline'}
+              size={25}
+            />
           </View>
         </View>
 
         <View style={styles.textContainer}>
-          <PressebleText style={styles.boldText} label={'100 Likes'} />
+          <PressebleText style={styles.boldText} label={post.postLikes} />
           <View style={styles.postDescriptionContainer}>
             <PressebleText style={styles.boldText} label={post.userName} />
             <Text>{post.postDescription}</Text>
@@ -92,10 +156,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
 
-  postDescriptionContainer:{
-
-    flexDirection:'row',
-    gap:5
+  postDescriptionContainer: {
+    flexDirection: 'row',
+    gap: 5,
   },
 
   iconsContainer: {

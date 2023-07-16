@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Document</title>
+  </head>
+  <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-root-margin="0px 0px -40%" >
+    <!--Navbar Base Start-->
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-dark fixed-top">
+      <div class="container flex-lg-column">
+        <a class="h3 fw-bold d-block d-lg-none" href="#">FCoder</a>
+        <img
+          src="data:image/jpeg;base64,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"
+          alt=""
+          class="d-none d-lg-block rounded-circle mx-lg-auto"
+        />
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto flex-lg-column text-lg-center">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#home">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#services"
+                >Services</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#work">Work</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#about">About</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#reviews"
+                >Reviews</a
+              >
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#blog">Blog</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="#contact"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!--Navbar Base End-->
+
+    <!--Content Base Start-->
+
+    <!--Home Base Start-->
+
+    <div id="content-wrapper">
+      <section class="full-height bg-dark" id="home">
+        <div class="container px-lg-5">
+          <div class="row">
+            <div class="col-lg-9">
+              <h1 class="display-4 fw-bold">
+                <span class="text-brand"  data-aos="fade-up">React / React Native </span>Developer
+              </h1>
+              <p  data-aos="fade-up">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                Tempora cumque eius, aliquid quos magni quas necessitatibus
+                illum nemo possimus reiciendis!
+              </p>
+
+              <a href="#work" class="btn btn-brand">Çalışmalarımı Gör</a>
+              <a href="" class="custom-link">+9055555555555</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+          <!--Home Base End-->
+
+              <!--Services Base Start-->
+
+      <section id="services" class="full-height px-lg-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10">
+              <h6 class="text-brand">Servisler</h6>
+              <h1>Sunduğum Hizmetler</h1>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div  data-aos="fade-up" class="service bg-base rounded-4 shadow-effect p-4">
+              <div class="iconbox">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </div>
+              <h4>Mobil Uygulama Geliştirme</h4>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum accusamus perferendis et beatae nam molestiae ut quidem quae temporibus doloribus?</p>
+              <a href="" class="custom-link">Daha Fazla</a>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div  data-aos="fade-up" class="service bg-base rounded-4 shadow-effect p-4">
+              <div class="iconbox">
+                <i class="fa-solid fa-droplet"></i>
+              </div>
+              <h4>Web Tasarım</h4>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum accusamus perferendis et beatae nam molestiae ut quidem quae temporibus doloribus?</p>
+              <a href="" class="custom-link">Daha Fazla</a>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div  data-aos="fade-up" class="service bg-base rounded-4 shadow-effect p-4">
+              <div class="iconbox">
+                <i class="fa-brands fa-android"></i>
+              </div>
+              <h4>Native Android Geliştirme</h4>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum accusamus perferendis et beatae nam molestiae ut quidem quae temporibus doloribus?</p>
+              <a href="" class="custom-link">Daha Fazla</a>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <!--Services Base End-->
+    </div>
+
+
+    <section id="work" class="full-height px-lg-5">
+      <div class="container">
+
+          <div class="row pb-4" data-aos="fade-up">
+              <div class="col-lg-8">
+                  <h6 class="text-brand">WORK</h6>
+                  <h1>My Recent Projects</h1>
+              </div>
+          </div>
+
+          <div class="row gy-4">
+
+              <div class="col-md-6" data-aos="fade-up">
+                  <div class="card-custom rounded-4 bg-base shadow-effect">
+                      <div class="card-custom-image rounded-4">
+                          <img class="rounded-4" src="project-1.jpg" alt="">
+                      </div>
+                      <div class="card-custom-content p-4">
+                          <h4>Startup Landing Page</h4>
+                          <p>Innovation that exceeds expectations. Astra is a true template equiqed with all the elements you could ever need to put together</p>
+                          <a href="#" class="link-custom">Read More</a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                  <div class="card-custom rounded-4 bg-base shadow-effect">
+                      <div class="card-custom-image rounded-4">
+                          <img class="rounded-4" src="project-2.png" alt="">
+                      </div>
+                      <div class="card-custom-content p-4">
+                          <h4>Startup Landing Page</h4>
+                          <p>Innovation that exceeds expectations. Astra is a true template equiqed with all the elements you could ever need to put together</p>
+                          <a href="#" class="link-custom">Read More</a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-md-6" data-aos="fade-up">
+                  <div class="card-custom rounded-4 bg-base shadow-effect">
+                      <div class="card-custom-image rounded-4">
+                          <img class="rounded-4" src="project-3.png" alt="">
+                      </div>
+                      <div class="card-custom-content p-4">
+                          <h4>Startup Landing Page</h4>
+                          <p>Innovation that exceeds expectations. Astra is a true template equiqed with all the elements you could ever need to put together</p>
+                          <a href="#" class="link-custom">Read More</a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                  <div class="card-custom rounded-4 bg-base shadow-effect">
+                      <div class="card-custom-image rounded-4">
+                          <img class="rounded-4" src="project-4.png" alt="">
+                      </div>
+                      <div class="card-custom-content p-4">
+                          <h4>Startup Landing Page</h4>
+                          <p>Innovation that exceeds expectations. Astra is a true template equiqed with all the elements you could ever need to put together</p>
+                          <a href="#" class="link-custom">Read More</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+  </section>
+
+
+
+
+
+    <!--Content Base End-->
+
+    <!--Java Script-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

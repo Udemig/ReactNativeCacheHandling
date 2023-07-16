@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import React, {useState, useContext} from 'react';
 import MyTextInput from '../../components/MyTextInput';
 import MyButton from '../../components/MyButton';
@@ -15,29 +15,46 @@ const AddPost = () => {
     postPhoto: '',
     userName: '',
     userPhoto: '',
-  });
+    postUserId:''
+   
+});
 
-  const onChangeText = (key, value) => {
-    setNewPost({...newPost, [key]: value});
-  };
+
 
   const addPost = (waddPost, userId) => {
     firestore()
       .collection('Post')
       .doc(userId)
       .collection('UserPost')
-      .add(waddPost)
-      .then(() => {
-        console.log('Post added!');
+      .add({ ...waddPost, postId: null, postLikes: 0 }) // Add 'postId' and 'postLikes' fields with initial values
+      .then((docInfo) => {
+     // console.log(docInfo.id)
+{/* İleri Süreçte Yapacağımız İşlemlerde Document in id si lazım olacağı için id yi kaydetme işlemi yapıyoruzz*/}
 
-        setNewPost({
-          postTitle: '',
-          postDescription: '',
-          postPhoto: '',
-        });
+  const postId=docInfo.id
+ 
+
+   docInfo.update({postId}).then(()=>console.log('güncellendi')).catch((error)=>console.log(error))
+
+
+
+
+
+
+
+
+      })
+      .catch((error) => {
+        console.error('Error adding post:', error);
       });
   };
+  
 
+
+
+  const onChangeText = (key, value) => {
+    setNewPost({...newPost, [key]: value});
+  };
   return (
     <View>
       <Text>Birşeyler Paylaş</Text>
@@ -60,17 +77,7 @@ const AddPost = () => {
         />
       </View>
 
-      <MyButton
-        title={'Paylaş'}
-        iconName={'add-outline'}
-        iconColor={colors.textColor}
-        onPress={() =>
-          addPost(
-            {...newPost, userName: userInfo.name, userPhoto: userInfo.photo},
-            userInfo.userID,
-          )
-        }
-      />
+    <Button title='ekle' onPress={()=>addPost({...newPost,userPhoto:userInfo.photo,userName:userInfo.name,postUserId:userInfo.userID},userInfo.userID)} />
     </View>
   );
 };

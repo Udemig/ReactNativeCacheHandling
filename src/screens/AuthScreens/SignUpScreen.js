@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
+import MyButton from '../../components/MyButton';
 
 const SignUpScreen = () => {
   const navigation = useNavigation();
@@ -68,7 +69,7 @@ const saveUser=(newUse,userId)=>{
     });
 
   };
-console.log(error)
+
   return (
     <View style={styles.mainContainer}>
 
@@ -125,9 +126,7 @@ console.log(error)
           Giriş Yap
         </Button>
 
-        <Button onPress={() => handleSignUp()} mode="contained">
-          Kayıt Ol
-        </Button>
+<Button onPress={()=>handleSignUp(newUser)} mode='contained'>Kayıt Ol</Button>
       </View>
     </View>
   );

@@ -12,6 +12,17 @@ const BottomNavigator = () => {
 
   return (
     <BottomStack.Navigator>
+         <BottomStack.Screen
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({color, size}) => (
+            <MyIcon name="person" color={color} size={size} />
+          ),
+        }}
+        name="Profile"
+        component={Profile}
+      />
       <BottomStack.Screen
         options={{
           headerShown: false,
@@ -34,17 +45,7 @@ const BottomNavigator = () => {
         name="AddPost"
         component={AddPost}
       />
-      <BottomStack.Screen
-        options={{
-          headerShown: false,
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({color, size}) => (
-            <MyIcon name="person" color={color} size={size} />
-          ),
-        }}
-        name="Profile"
-        component={Profile}
-      />
+   
     </BottomStack.Navigator>
   );
 };

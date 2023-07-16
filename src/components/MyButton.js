@@ -1,9 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React,{memo} from 'react'
 import MyIcon from './MyIcon'
 import { colors } from '../utils/colors'
 
 const MyButton = ({title,onPress,iconName,iconColor,style}) => {
+  console.log('render')
   return (
    <TouchableOpacity style={[styles.btnContainer,style]} onPress={onPress}>
     <MyIcon name={iconName} size={30} color={iconColor}/>
@@ -12,9 +13,14 @@ const MyButton = ({title,onPress,iconName,iconColor,style}) => {
     </Text>
    </TouchableOpacity>
   )
+
+
+}
+const customComparator=(prevProps,nextProps)=>{
+  return nextProps.title===prevProps.title
 }
 
-export default MyButton
+export default memo(MyButton,customComparator)
 
 const styles = StyleSheet.create({
   btnContainer:{
