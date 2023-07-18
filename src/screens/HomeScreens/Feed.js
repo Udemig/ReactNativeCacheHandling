@@ -4,11 +4,11 @@ import firestore from '@react-native-firebase/firestore';
 import {DataContext} from '../../context/context';
 import PostCard from '../../components/PostCard';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
 DataContext;
-const MyPosts = () => {
+const Feed = () => {
   const {userInfo} = useContext(DataContext);
   const [posts, setPosts] = useState();
-
 
   useEffect(() => {
     //subscriber değişkeni oluştrurak sürekli çalışmasını return ettiğinde engelliyor
@@ -49,7 +49,9 @@ const MyPosts = () => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      <Header/>
       <FlatList
+      style={{flex:1}}
         data={posts}
         renderItem={({item}) => <PostCard post={item} />}
       />
@@ -57,6 +59,6 @@ const MyPosts = () => {
   );
 };
 
-export default MyPosts;
+export default Feed;
 
 const styles = StyleSheet.create({});

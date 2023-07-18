@@ -18,7 +18,7 @@ import SpecialButton from '../../components/SpecialButton';
 import {values} from '../../utils/screenValue';
 import LightButton from '../../components/LightButton';
 
-const ProfileScreen = ({uid}) => {
+const ProfileScreen = ({route,uid}) => {
   const {avaibleUser, setAvaibleUser, setUserInfo, userInfo} =
     useContext(DataContext);
   const navigation = useNavigation();
@@ -61,7 +61,8 @@ const ProfileScreen = ({uid}) => {
   }, [userInfo?.userID]);
 
   // console.log(posts);
-
+console.log('search',route?.params.uid)
+console.log('bootm',uid)
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
@@ -102,7 +103,7 @@ const ProfileScreen = ({uid}) => {
             <LightButton label={'Mesaj'} />
             <PressebleIcon name={'person-add-outline'} size={25} />
           </View>
-        )}
+        )} 
 
         <View style={styles.changerBar}>
           <PressebleIcon
