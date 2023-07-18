@@ -18,13 +18,13 @@ import SpecialButton from '../../components/SpecialButton';
 import {values} from '../../utils/screenValue';
 import LightButton from '../../components/LightButton';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({uid}) => {
   const {avaibleUser, setAvaibleUser, setUserInfo, userInfo} =
     useContext(DataContext);
   const navigation = useNavigation();
 
   const [posts, setPosts] = useState([]);
-
+  const [activeChanger, setActiveChanger] = useState(0);
   useEffect(() => {
     //subscriber değişkeni oluştrurak sürekli çalışmasını return ettiğinde engelliyor
     const subscriber =
@@ -96,34 +96,54 @@ const ProfileScreen = () => {
           <Text>Takip edenler info alanı</Text>
         </View>
 
-        <View style={styles.buttonBar}>
-          <SpecialButton label={'Takip Et'} />
-      <LightButton label={'Mesaj'}/>
-          <PressebleIcon name={'person-add-outline'} size={25} />
-        </View>
+        {uid !== userInfo?.userID && (
+          <View style={styles.buttonBar}>
+            <SpecialButton label={'Takip Et'} />
+            <LightButton label={'Mesaj'} />
+            <PressebleIcon name={'person-add-outline'} size={25} />
+          </View>
+        )}
 
         <View style={styles.changerBar}>
-          <PressebleIcon name={'apps-outline'} size={25} />
-          <PressebleIcon name={'image-outline'} size={25} />
+          <PressebleIcon
+            style={
+              activeChanger == 0 ? styles.leftChangerActive : styles.changer
+            }
+            onPress={() => setActiveChanger(0)}
+            name={'apps-outline'}
+            size={30}
+          />
+          <PressebleIcon
+            onPress={() => setActiveChanger(1)}
+            style={
+              activeChanger == 1 ? styles.rightChangerActive : styles.changer
+            }
+            name={'image-outline'}
+            size={30}
+          />
         </View>
       </View>
-      <View style={styles.bottomContainer}>
-        <View style={styles.col}>
-          <MyFastImage style={styles.galleryImage} image={userInfo?.photo} />
+      {activeChanger == 0 ? (
+        <View style={styles.bottomContainer}>
+          <FlatList
+            numColumns={3}
+            horizontal={false}
+            data={posts}
+            renderItem={({item}) => {
+              return (
+                <View style={styles.imageContainer}>
+                  <MyFastImage style={styles.image} image={item.postPhoto} />
+                </View>
+              );
+            }}
+          />
         </View>
-
-        <View style={styles.col}>
-          <MyFastImage style={styles.galleryImage} image={userInfo?.photo} />
+      ) : (
+        <View>
+    
+          <Text>2</Text>
         </View>
-
-        <View style={styles.col}>
-          <MyFastImage style={styles.galleryImage} image={userInfo?.photo} />
-        </View>
-
-        <View style={styles.col}>
-          <MyFastImage style={styles.galleryImage} image={userInfo?.photo} />
-        </View>
-      </View>
+      )}
     </View>
   );
 };
@@ -135,9 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  topContainer: {
-    flex: 1,
-  },
+  topContainer: {},
 
   headContainer: {
     flexDirection: 'row',
@@ -148,16 +166,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
 
-  name:{
-fontSize:20,
-fontWeight:'bold'
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 
-  type:{
-
-  color:'gray'
+  type: {
+    color: 'gray',
   },
-
 
   userBar: {
     flexDirection: 'row',
@@ -180,7 +196,7 @@ fontWeight:'bold'
   userInfoBar: {
     paddingHorizontal: 20,
     paddingVertical: 15,
-    backgroundColor:'white'
+    backgroundColor: 'white',
   },
 
   buttonBar: {
@@ -189,41 +205,54 @@ fontWeight:'bold'
     justifyContent: 'space-around',
     paddingHorizontal: 30,
     paddingVertical: 15,
-    backgroundColor:'white'
+    backgroundColor: 'white',
   },
 
   changerBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingVertical: 15,
     backgroundColor:'white'
   },
 
   bottomContainer: {
     flex: 1,
-    flexDirection: 'row',
     backgroundColor: 'white',
-    flexWrap: 'wrap',
-  },
-  col: {
-    width: values.windowWidth / 3,
-    height: values.windowWidth / 3,
-
-    padding: 1,
   },
 
-  galleryImage: {
-    width: '100%',
-    height: '100%',
-    padding: 3,
+  imageContainer: {
+    flex: 1 / 3,
   },
-
+  image: {
+    flex: 1,
+    aspectRatio: 1 / 1,
+  },
   profilePhoto: {
     width: 100,
     height: 100,
     borderWidth: 2,
     borderRadius: 50,
     borderColor: '#fb3958',
+  },
+
+  changer: {
+    flex: 1,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  leftChangerActive: {
+    flex: 1,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 2,
+  },
+  rightChangerActive: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 2,
   },
 });

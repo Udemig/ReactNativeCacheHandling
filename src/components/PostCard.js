@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MyIcon from './MyIcon';
 import MyFastImage from './MyFastImage';
 import PressebleText from './PressebleText';
@@ -7,33 +7,64 @@ import {colors} from '../utils/colors';
 import PressebleIcon from './PressebleIcon';
 import firestore from '@react-native-firebase/firestore';
 const PostCard = ({post}) => {
-  const [saved, setSaved] = useState(post.isSaved);
+  const [saved, setSaved] = useState(false);
   const [liked, setLiked] = useState(post.isLiked);
 
-  console.log(post);
+  //console.log(post);
+//Burada postun kayıt edileceği yolu referans olarak belirliyoruz ve değişkene atyıoruz
+useEffect(()=>{
+  checkSavedPost()
+},[])
 
-  const savePost = (userId, postID, willAddPost) => {
-    const savedPostReferance = firestore()
-      .collection('Post')
-      .doc(userId)
-      .collection('UserSavedPost')
-      .doc(postID);
+const checkSavedPost=async()=>{
 
-    if (saved) {
-      savedPostReferance.delete().then(() => {
-        console.log('remove');
-        setSaved(false);
-      });
-    } else {
-      savedPostReferance
-        .set({...willAddPost, isSaved: true})
-        .then(() => {
-          console.log('kayıt edildi');
-          setSaved(true);
-        })
-        .catch(error => console.log(error));
-    }
-  };
+try{
+  const userSavedPostRef=firestore().collection('SavedPosts').doc(post.postUserId).collection('UserSavedPost')
+
+  const snapShot=await userSavedPostRef.doc(post.postId).get()
+  const isPostSaved=snapShot.exists;
+  setSaved(isPostSaved)
+}
+
+catch(error){
+  console.log('fetch saved psot',error)
+
+}
+
+}
+
+
+
+
+
+
+ const savePost=()=>{
+  setSaved(!saved);
+
+
+
+const userSavedPostRef=firestore().collection('SavedPosts').doc(post.postUserId).collection('UserSavedPost')
+
+
+//Eğer Post Kayıtlı ise bastığımızda silecek
+if(saved){
+
+  //verdiğimiz referansda bulunan kayıtlı postlardan bastığımız  id ye ait olanı silecek
+  userSavedPostRef.doc(post.postId).delete().then(()=>{
+    console.log('Silindi')
+  }).catch((err)=>console.log(err))
+
+
+}
+
+//Eğer Kayıtlı değilse verdiğmiz id ile kayıt edecek
+else{
+  userSavedPostRef.doc(post.postId).set(post).then(()=>{
+    console.log('kayıt edildi')
+  }).catch((err)=>console.log('kayıt edilirken hata',err))
+}
+
+ }
 
   const incrementPostLikes = (userId, postId) => {
     const postRef = firestore()
@@ -94,7 +125,7 @@ const PostCard = ({post}) => {
 
           <View style={styles.rightSide}>
             <PressebleIcon
-              onPress={() => savePost(post.postUserId, post.postId, post)}
+              onPress={() => savePost()}
               name={saved == true ? 'bookmark' : 'bookmark-outline'}
               size={25}
             />
