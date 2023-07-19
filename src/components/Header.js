@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import PressebleIcon from './PressebleIcon'
+import { Fonts } from '../utils/Fonts'
 
 const Header = () => {
   return (
@@ -32,8 +33,10 @@ const styles = StyleSheet.create({
     },
 
     logo:{
-        fontSize:20,
-        fontWeight:'800'
+        fontSize:25,
+        fontWeight:'400',
+        fontFamily:Fonts.regular,
+        letterSpacing:1 
     },
     iconBox:{
         flexDirection:'row',

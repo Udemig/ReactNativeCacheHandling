@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-const SpecialButton = ({label,labelStyle,onPress}) => {
+const SpecialButton = ({label,labelStyle,onPress,style}) => {
   return (
- <TouchableOpacity onPress={onPress} style={styles.buttonStyle}>
+ <TouchableOpacity onPress={onPress} style={[styles.buttonStyle,style]}>
  <Text style={styles.labelStyle}>{label}</Text>
  </TouchableOpacity>
   )
@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
         ,
         paddingHorizontal:60,
         paddingVertical:7,
-        borderRadius:5
+        borderRadius:5,
+        alignItems:'center',
+        justifyContent:'center'
     },
 
     labelStyle:{

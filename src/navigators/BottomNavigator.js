@@ -18,17 +18,6 @@ const BottomNavigator = () => {
       <BottomStack.Screen
         options={{
           headerShown: false,
-          tabBarLabel: 'Search',
-          tabBarIcon: ({color, size}) => (
-            <MyIcon name="search-outline" color={color} size={size} />
-          ),
-        }}
-        name="SearchScreen"
-        component={SearchStack}
-      />
-      <BottomStack.Screen
-        options={{
-          headerShown: false,
           tabBarLabel: 'Feed',
           tabBarIcon: ({color, size}) => (
             <MyIcon name="home" color={color} size={size} />
@@ -36,6 +25,17 @@ const BottomNavigator = () => {
         }}
         name="Feed"
         component={Feed}
+      />
+      <BottomStack.Screen
+        options={{
+          headerShown: false,
+          tabBarLabel: 'Search',
+          tabBarIcon: ({color, size}) => (
+            <MyIcon name="search-outline" color={color} size={size} />
+          ),
+        }}
+        name="SearchScreen"
+        component={SearchStack}
       />
 
       <BottomStack.Screen

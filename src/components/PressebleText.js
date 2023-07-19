@@ -1,10 +1,14 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
+import MyIcon from './MyIcon'
 
-const PressebleText = ({label,style}) => {
+const PressebleText = ({label,style,onPress}) => {
+
+
   return (
-   <TouchableOpacity>
+   <TouchableOpacity onPress={onPress} style={style}>
     <Text style={style}>{label}</Text>
+
    </TouchableOpacity>
   )
 }

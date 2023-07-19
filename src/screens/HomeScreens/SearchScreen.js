@@ -62,8 +62,8 @@ const SearchScreen = () => {
 
       {resultAvaible == false ? (
         <SearchCard
-          onPress={() => navigation.navigate('ProfileScreen', 'merahab')}
-          uName={'Abc ABC'}
+  
+          uName={'Hasan Çelik'}
           uSName={'fhasanc'}
           pPhoto={
             'https://images.unsplash.com/photo-1594167154836-838be958f605?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60'
