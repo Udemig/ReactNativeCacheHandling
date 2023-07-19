@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
-const SpecialButton = ({label,labelStyle}) => {
+const SpecialButton = ({label,labelStyle,onPress}) => {
   return (
- <TouchableOpacity style={styles.buttonStyle}>
+ <TouchableOpacity onPress={onPress} style={styles.buttonStyle}>
  <Text style={styles.labelStyle}>{label}</Text>
  </TouchableOpacity>
   )

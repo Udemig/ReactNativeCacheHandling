@@ -18,14 +18,19 @@ import SpecialButton from '../../components/SpecialButton';
 import {values} from '../../utils/screenValue';
 import LightButton from '../../components/LightButton';
 
-const ProfileScreen = ({route,uid}) => {
-  const {avaibleUser, setAvaibleUser, setUserInfo, userInfo} =
-    useContext(DataContext);
+const ProfileScreen = ({route, uid}) => {
+  const {userInfo} = useContext(DataContext);
   const navigation = useNavigation();
 
   const [posts, setPosts] = useState([]);
+  const [pUserInfo, setpUserInfo] = useState();
   const [activeChanger, setActiveChanger] = useState(0);
-  useEffect(() => {
+  const [searchUid, setSearchUid] = useState(route?.params.uid.userID);
+  const [bottomUid, setBottomUid] = useState(uid);
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [targetUser, setTargetUser] = useState(route?.params.uid);
+
+  const fetchPost = puid => {
     //subscriber değişkeni oluştrurak sürekli çalışmasını return ettiğinde engelliyor
     const subscriber =
       //Veri Tabanındaki Verilerimizin yolunu Belirttik Önce
@@ -33,7 +38,7 @@ const ProfileScreen = ({route,uid}) => {
 
       firestore()
         .collection('Post')
-        .doc(userInfo?.userID)
+        .doc(puid)
         .collection('UserPost')
 
         //Herbir Post Bilgisine sahib document lerin olduğu collection u
@@ -58,52 +63,152 @@ const ProfileScreen = ({route,uid}) => {
 
     // Stop listening for updates when no longer required
     return () => subscriber();
-  }, [userInfo?.userID]);
+  };
 
+  const fetchSearchUserInfo = async userid => {
+    const user = await firestore().collection('Users').doc(userid).get();
+    setpUserInfo(user._data);
+    //console.log(user)
+  };
+
+  useEffect(() => {
+    if (searchUid == userInfo?.userID) {
+      fetchPost(userInfo?.userID);
+      setpUserInfo(userInfo);
+    } else if (bottomUid == userInfo?.userID) {
+      fetchPost(userInfo?.userID);
+      setpUserInfo(userInfo);
+    } else {
+      fetchPost(searchUid);
+      fetchSearchUserInfo(searchUid);
+    }
+  }, [searchUid,bottomUid,isFollowing]);
+
+  useEffect(()=>{
+checkIfFollowing()
+
+  },[])
+
+  const checkIfFollowing = async () => {
+    try {
+      const followerRef = firestore()
+        .collection('Followers')
+        .doc(userInfo?.userID)
+        .collection('UserFollowers')
+        .doc(targetUser?.userID);
+
+      const snapshot = await followerRef.get();
+      const isUserFollowing = snapshot.exists;
+      setIsFollowing(isUserFollowing);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleFollow = async () => {
+    try {
+      const followerRef = firestore()
+        .collection('Followers')
+        .doc(userInfo?.userID)
+        .collection('UserFollowers')
+        .doc(searchUid);
+
+      const followingRef = firestore()
+        .collection('Following')
+        .doc(userInfo?.userID)
+        .collection('UserFollowing')
+        .doc(searchUid);
+
+      const userRef = firestore().collection('Users').doc(userInfo?.userID);
+      const targetUserRef = firestore().collection('Users').doc(searchUid);
+
+      const batch = firestore().batch();
+
+      if (isFollowing) {
+        batch.delete(followerRef);
+        batch.delete(followingRef);
+
+        batch.update(userRef, {
+          followingCount: firestore.FieldValue.increment(-1),
+        });
+
+        batch.update(targetUserRef, {
+          followersCount: firestore.FieldValue.increment(-1),
+        });
+
+        setIsFollowing(false);
+      } else {
+        batch.set(followerRef, targetUser);
+        batch.set(followingRef, userInfo);
+
+        batch.update(userRef, {
+          followingCount: firestore.FieldValue.increment(1),
+        });
+
+        batch.update(targetUserRef, {
+          followersCount: firestore.FieldValue.increment(1),
+        });
+
+        setIsFollowing(true);
+      }
+
+      await batch.commit();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //console.log(pUserInfo)
   // console.log(posts);
-console.log('search',route?.params.uid)
-console.log('bootm',uid)
+  //console.log('search',route?.params.uid)
+  //console.log('bootm',uid)
+  // console.log('s',searchUid)
+  // console.log('b',bottomUid)
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topContainer}>
         <View style={styles.headContainer}>
           <PressebleIcon name={'arrow-back-outline'} size={25} />
-          <Text style={styles.name}>{userInfo?.name}</Text>
-          <PressebleIcon name={'settings-outline'} size={25} />
+          <Text style={styles.name}>{pUserInfo?.name}</Text>
+          <PressebleIcon
+            onPress={() => auth().signOut()}
+            name={'settings-outline'}
+            size={25}
+          />
         </View>
 
         <View style={styles.userBar}>
-          <MyFastImage image={userInfo?.photo} style={styles.profilePhoto} />
+          <MyFastImage image={pUserInfo?.photo} style={styles.profilePhoto} />
 
           <View style={styles.rightSide}>
             <View style={styles.userItem}>
-              <Text style={styles.name}>574</Text>
+              <Text style={styles.name}>{pUserInfo?.postCount}</Text>
               <Text style={styles.type}>Post</Text>
             </View>
             <View style={styles.userItem}>
-              <Text style={styles.name}>100</Text>
+              <Text style={styles.name}>{pUserInfo?.followersCount}</Text>
               <Text style={styles.type}>Takipçi</Text>
             </View>
             <View style={styles.userItem}>
-              <Text style={styles.name}>712</Text>
+              <Text style={styles.name}>{pUserInfo?.followingCount}</Text>
               <Text style={styles.type}>Takip Edilen</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.userInfoBar}>
-          <Text style={styles.name}>{userInfo?.name}</Text>
-          <Text>{userInfo?.bio}</Text>
+          <Text style={styles.name}>{pUserInfo?.name}</Text>
+          <Text>{pUserInfo?.bio}</Text>
           <Text>Takip edenler info alanı</Text>
         </View>
 
-        {uid !== userInfo?.userID && (
+        {uid !== pUserInfo?.userID && (
           <View style={styles.buttonBar}>
-            <SpecialButton label={'Takip Et'} />
+            <SpecialButton onPress={toggleFollow} label={isFollowing ? 'Takibi Bırak' : 'Takip Et'} />
             <LightButton label={'Mesaj'} />
             <PressebleIcon name={'person-add-outline'} size={25} />
           </View>
-        )} 
+        )}
 
         <View style={styles.changerBar}>
           <PressebleIcon
@@ -141,7 +246,6 @@ console.log('bootm',uid)
         </View>
       ) : (
         <View>
-    
           <Text>2</Text>
         </View>
       )}
@@ -207,13 +311,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 15,
     backgroundColor: 'white',
+    gap:18
   },
 
   changerBar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    backgroundColor:'white'
+    backgroundColor: 'white',
   },
 
   bottomContainer: {

@@ -38,9 +38,9 @@ const SearchScreen = () => {
       setResultAvaible(true);
     }
   };
-  console.log(searchResults[0]?.userID);
+  //console.log(searchResults[0]?.userID);
 
-  console.log(resultAvaible);
+ // console.log(resultAvaible);
 
   return (
     <View>
@@ -73,7 +73,7 @@ const SearchScreen = () => {
         <SearchCard
           onPress={() =>
             navigation.navigate('ProfileScreen', {
-              uid: searchResults[0]?.userID,
+              uid: searchResults[0],
             })
           }
           uName={searchResults[0]?.name}

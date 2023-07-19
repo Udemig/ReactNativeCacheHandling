@@ -10,39 +10,35 @@ const Feed = () => {
   const {userInfo} = useContext(DataContext);
   const [posts, setPosts] = useState();
 
+
+  const fetchPosts=async()=>{
+     try{
+      const followingSnapshot=await firestore().collection('Following').doc(userInfo?.userID).collection('UserFollowing').get()
+    
+   // console.log(followingSnapshot.docs[0].id)
+
+   const followedUsers=followingSnapshot.docs.map((doc)=>doc.id)
+
+const posts=  []
+
+for(const userId of followedUsers){
+  const snapshot=await firestore().collection('Post').doc(userId).collection('UserPost').get()
+ // console.log(snapshot.docs)
+
+ snapshot.forEach((doc)=>{
+  const post =doc.data()
+  posts.push(post)
+ })
+}
+setPosts(posts)
+
+    }catch(er){
+    console.log(er)
+     }
+   
+  }
   useEffect(() => {
-    //subscriber değişkeni oluştrurak sürekli çalışmasını return ettiğinde engelliyor
-    const subscriber =
-      //Veri Tabanındaki Verilerimizin yolunu Belirttik Önce
-      //Post=>userID=>UserPost====>bu koleksiyondaki dökümalarda olduğu post bilgileri burayı onSnapshot ile dinlemey aldık
-
-      firestore()
-        .collection('Post')
-        .doc(userInfo?.userID)
-        .collection('UserPost')
-
-        //Herbir Post Bilgisine sahib document lerin olduğu collection u
-        //onSnapshot metodu ile döndük.bu metod bize bir QuerySnap döndürür
-        //Dönen QuerySnap bizim document lerimizdir
-        //Daha sonra consoldan kontrol ederek documentlerdeki verilere eriştik
-
-        .onSnapshot(QuerySnapshot => {
-          let postArray = [];
-          QuerySnapshot._docs.map(p => {
-            //Alltaki console log document deki verileri getirir
-            // console.log(p._data)
-
-            // Bizim Gelen post bilgileri obje geliyor
-            //Ancak Flatlistte data olarak liste olması gerekiyor
-            //bizde gelen her bir objeyi postArray dizisine ekliyoruz
-            postArray.push(p._data);
-            //oluşturduğumuz listeyi posts statemize aktarıyoruz
-            setPosts(postArray);
-          });
-        });
-
-    // Stop listening for updates when no longer required
-    return () => subscriber();
+   fetchPosts()
   }, [userInfo?.userID]);
 
   //console.log(posts);

@@ -17,7 +17,10 @@ const SignUpScreen = () => {
     job:'',
     bio:'',
     experience:'',
-    userID:''
+    userID:'',
+    followingCount:0,
+    followersCount:0,
+    postCount:0
   });
 
   const onChangeText = (key, value) => {
